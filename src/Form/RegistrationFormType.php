@@ -26,6 +26,7 @@ class RegistrationFormType extends AbstractType
     {
         $role = 'ROLE_USER';
         if($user = $this->security->getUser()){
+            // Get the first role
             $role = $user->getRoles()[0];
         }
 

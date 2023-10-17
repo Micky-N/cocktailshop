@@ -45,12 +45,26 @@ class CartController extends AbstractController
         return $this->redirectToRoute('cocktail_index');
     }
 
+    /**
+     * Redirect back
+     * @param Request $request
+     * @return RedirectResponse
+     */
     private function redirectBack(Request $request): RedirectResponse
     {
+        // Get the previous url
         $referer = $request->headers->get('referer');
-        $uri = $request->attributes->get("_route");
-        $params = $request->attributes->get("_route_params", []);
+        // Get the previous url
+        $route = $request->attributes->get("_route");
+        // Get the previous url params
+        $routeParams = $request->attributes->get("_route_params", []);
+
+        // If the HTTP_REFERER founded
         if($referer) return $this->redirect($referer);
-        return $this->redirectToRoute($uri, $params);
+        // Else if the route name founded
+        if($route) return $this->redirectToRoute($route, $routeParams);
+
+        // else go to home page
+        return $this->redirectToRoute('app_home');
     }
 }

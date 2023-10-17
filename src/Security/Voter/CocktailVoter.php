@@ -25,7 +25,7 @@ class CocktailVoter extends Voter
             return false;
         }
 
-        // only vote on `Post` objects
+        // only vote on `Cocktail` instance
         if ($attribute === self::VIEW_VIP && !$subject instanceof Cocktail) {
             return false;
         }
@@ -43,11 +43,23 @@ class CocktailVoter extends Voter
     }
 
 
+    /**
+     * True if cocktail to show is not a vip cocktail
+     * or user has VIP role
+     *
+     * @param Cocktail $cocktail
+     * @return bool
+     */
     private function canViewVip(Cocktail $cocktail): bool
     {
         return !$cocktail->isVip() || $this->security->isGranted('ROLE_VIP');
     }
 
+    /**
+     * Check if user has ADMIN role
+     *
+     * @return bool
+     */
     private function canEdit(): bool
     {
         return $this->security->isGranted('ROLE_ADMIN');

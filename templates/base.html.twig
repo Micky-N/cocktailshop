@@ -26,9 +26,9 @@
     const cartContainer = document.querySelector('#cart-container')
     const cartBtn = document.querySelector('#cartBtn')
     const bodyContainer = document.querySelector('body')
-    bodyContainer.onclick = (e) => {
+    bodyContainer.onclick = (/** @type {MouseEvent} */ event) => {
         if (cartContainer.classList.contains('translate-x-0')) {
-            const target = e.target
+            const target = event.target
             if (!cartBtn.contains(target) && !cartContainer.contains(target)) {
                 toggleCart()
             }

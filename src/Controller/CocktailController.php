@@ -25,11 +25,12 @@ class CocktailController extends AbstractController
     #[Route('/cocktails', name: 'cocktail_index')]
     public function index(CocktailRepository $cocktailRepository, Security $security): Response
     {
-        $builder = $cocktailRepository->createQueryBuilder('c');
+        $queryBuilder = $cocktailRepository->createQueryBuilder('cocktail');
+        // If user is not a VIP remove all VIP cocktail
         if (!$security->isGranted('ROLE_VIP')) {
-            $builder->where('c.vip = FALSE');
+            $queryBuilder->where('cocktail.vip = FALSE');
         }
-        $query = $builder->getQuery();
+        $query = $queryBuilder->getQuery();
         return $this->render('cocktail/index.html.twig', [
             'cocktails' => $query->execute(),
             'cartCocktails' => $this->cartService->getFullCart()
@@ -37,7 +38,7 @@ class CocktailController extends AbstractController
     }
 
     #[Route('admin/cocktails', name: 'admin_cocktail_index')]
-    public function indexAdmin(CocktailRepository $cocktailRepository, Security $security): Response
+    public function indexAdmin(CocktailRepository $cocktailRepository): Response
     {
         return $this->render('admin/cocktail/index.html.twig', [
             'cocktails' => $cocktailRepository->findAll(),
@@ -61,6 +62,7 @@ class CocktailController extends AbstractController
     #[IsGranted('EDIT', null, 'Page not found', 404)]
     public function form(Request $request, EntityManagerInterface $manager, ?Cocktail $cocktail = null): RedirectResponse|Response
     {
+        // Get current cocktail in edit route otherwise new instance of Cocktail entity
         $cocktail ??= new Cocktail();
         $form = $this->createForm(CocktailType::class, $cocktail);
         $form->handleRequest($request);
@@ -78,9 +80,8 @@ class CocktailController extends AbstractController
 
     #[Route('admin/cocktail/{cocktail}/delete', name: 'admin_cocktail_delete')]
     #[IsGranted('EDIT', null, 'Page not found', 404)]
-    public function delete(EntityManagerInterface $manager, ?Cocktail $cocktail = null): RedirectResponse
+    public function delete(EntityManagerInterface $manager, Cocktail $cocktail): RedirectResponse
     {
-        if (!$cocktail) return $this->redirectToRoute('admin_cocktail_index');
         $manager->remove($cocktail);
         $manager->flush();
         return $this->redirectToRoute('admin_cocktail_index');
