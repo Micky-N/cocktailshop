@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+
+{% endblock %}
+
+{% form_theme form 'tailwind_2_layout.html.twig' %}
+{% block body %}
+    <section class="bg-white dark:bg-gray-900">
+        <div class="max-w-2xl px-4 mx-auto">
+            <a href="{{ path('admin_cocktail_index') }}"
+               class="w-fit text-gray-400 hover:text-gray-600 hover:underline flex items-center space-x-1">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4">
+                    <path fill-rule="evenodd"
+                          d="M7.28 7.72a.75.75 0 010 1.06l-2.47 2.47H21a.75.75 0 010 1.5H4.81l2.47 2.47a.75.75 0 11-1.06 1.06l-3.75-3.75a.75.75 0 010-1.06l3.75-3.75a.75.75 0 011.06 0z"
+                          clip-rule="evenodd"></path>
+                </svg>
+                <span>Retour</span>
+            </a>
+        </div>
+        <div class="max-w-2xl px-4 mx-auto py-16">
+            <h2 class="mb-4 text-xl font-bold text-gray-900">{{ cocktail.id ? 'Edit' : 'Create' }} cocktail</h2>
+            <div class="my-custom-class-for-errors">
+                {{ form_errors(form) }}
+            </div>
+            {{ form_start(form) }}
+            {{ form_widget(form._token) }}
+            <div class="grid grid-cols-3 gap-6 mb-5">
+                <div class="col-span-2">
+                    {{ form_label(form.name, 'Cocktail Name', {'label_attr': {'class': 'block mb-2 text-sm font-medium text-gray-900'}}) }}
+                    {{ form_widget(form.name, {'attr': {'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5'}}) }}
+                </div>
+                <div class="col-span-1">
+                    {{ form_label(form.price, 'Price', {'label_attr': {'class': 'block mb-2 text-sm font-medium text-gray-900'}}) }}
+                    {{ form_widget(form.price, {'attr': {'step': 0.01, 'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5'}}) }}
+                </div>
+                <div class="col-span-2">
+                    {{ form_label(form.slug, 'Slug', {'label_attr': {'class': 'block mb-2 text-sm font-medium text-gray-900'}}) }}
+                    {{ form_widget(form.slug, {'attr': {'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5'}}) }}
+                </div>
+                <div class="col-span-1 flex space-x-2 items-center">
+                    {{ form_widget(form.vip, {'attr': {'class': 'w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2'}}) }}
+                    {{ form_label(form.vip, 'VIP', {'label_attr': {'class': 'block mb-2 text-sm font-medium text-gray-900'}}) }}
+                </div>
+                <div class="col-span-3">
+                    {{ form_label(form.url, 'Url image', {'label_attr': {'class': 'block mb-2 text-sm font-medium text-gray-900'}}) }}
+                    {{ form_widget(form.url, {'attr': {'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5'}}) }}
+                </div>
+                <div class="col-span-1">
+                    <img id="image_url" class="h-40" src="{{ cocktail.url }}" alt="">
+                </div>
+            </div>
+            <div class="flex items-center space-x-4">
+                {{ form_widget(form.save, {attr: {class: 'text-white bg-green-500 hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-green-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center'}}) }}
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </section>
+
+{% endblock %}
+{% block script %}
+    <script>
+        const inputUrl = document.querySelector('#cocktail_url')
+        const imageUrl = document.querySelector('#image_url')
+        inputUrl.addEventListener('input',
+            /**
+             * @param {InputEvent} event
+             */
+            (event) => {
+                imageUrl.src = event.target.value
+            })
+    </script>
+{% endblock %}
+

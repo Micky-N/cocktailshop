@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <section class="relative w-full flex justify-center items-center bg-black/30">
+        <div class="fixed -z-10 w-full h-screen top-0 left-0 bg-cover bg-center py-24"
+             style="background-image: url('https://c6bo-plongee-blog.fr/wp-content/uploads/2020/05/couverture-c6bo-voyage-blog-plongee-recettes-meilleurs-cocktails-kobby-mendez.jpg')"></div>
+        <div class="mx-auto text-white py-4">
+            <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-center text-rose-400">Contact Us</h2>
+            <p class="mb-8 font-light text-center text-xl">Got a technical issue? Want to send feedback about a beta feature? Need details about our Business plan? Let us know.</p>
+            <form action="#" class="space-y-4">
+                <div>
+                    <label for="email" class="block mb-2 text-sm font-medium text-gray-900">Your email</label>
+                    <input type="email" id="email" class="shadow-sm bg-gray-50/75 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="name@example.com" required>
+                </div>
+                <div>
+                    <label for="subject" class="block mb-2 text-sm font-medium text-gray-900">Subject</label>
+                    <input type="text" id="subject" class="block p-3 w-full text-sm text-gray-900 bg-gray-50/75 rounded-lg border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Let us know how we can help you" required>
+                </div>
+                <div class="sm:col-span-2">
+                    <label for="message" class="block mb-2 text-sm font-medium text-gray-900">Your message</label>
+                    <textarea id="message" rows="6" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50/75 rounded-lg shadow-sm border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Leave a comment..."></textarea>
+                </div>
+                <button type="submit" class="py-3 px-5 text-sm font-medium text-center text-white rounded-lg bg-rose-700 sm:w-fit hover:bg-rose-800 focus:ring-4 focus:outline-none focus:ring-rose-300">Send message</button>
+            </form>
+        </div>
+    </section>
+{% endblock %}

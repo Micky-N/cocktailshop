@@ -1,0 +1,89 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container mx-auto px-20 pt-10">
+        <a href="{{ path('admin_cocktail_new') }}"
+           class="bg-green-400 hover:bg-green-600 text-white text-sm font-bold w-fit px-3 py-1 rounded mb-4 flex items-center space-x-2">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
+                <path fill-rule="evenodd"
+                      d="M12 3.75a.75.75 0 01.75.75v6.75h6.75a.75.75 0 010 1.5h-6.75v6.75a.75.75 0 01-1.5 0v-6.75H4.5a.75.75 0 010-1.5h6.75V4.5a.75.75 0 01.75-.75z"
+                      clip-rule="evenodd"></path>
+            </svg>
+            <span>Add cocktail</span>
+        </a>
+        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+                <th scope="col" class="px-6 py-3">
+                    Cocktail
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Slug
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Price
+                </th>
+                <th scope="col" class="px-6 py-3 text-center">
+                    Url image
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    VIP
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    <span class="sr-only">Actions</span>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for cocktail in cocktails %}
+                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                    <th scope="row"
+                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        {{ cocktail.name }}
+                    </th>
+                    <td class="px-6 py-4">
+                        {{ cocktail.slug }}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ cocktail.price }}€
+                    </td>
+                    <td class="px-6 py-4 text-center flex justify-center">
+                        <img src="{{ cocktail.url }}" alt="{{ cocktail.name }}" class="w-20 h-20">
+                    </td>
+                    <td class="px-6 py-4">
+                        <label for="vip" class="sr-only">VIP</label>
+                        <input id="vip" type="radio" value="" {{ cocktail.vip ? 'checked' : '' }} disabled
+                               class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500">
+                    </td>
+                    <td class="px-6 py-4">
+                        <div class="text-right flex items-center space-x-4">
+                            <a href="{{ path('admin_cocktail_edit', {cocktail: cocktail.id}) }}"
+                               class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                            <form onsubmit="event.preventDefault(); deleteCocktail(event)"
+                                  action="{{ path('admin_cocktail_delete', {cocktail: cocktail.id}) }}">
+                                <input type="hidden" name="_csrf_token"
+                                       value="{{ csrf_token('authenticate') }}"
+                                >
+                                <button class="font-medium text-red-600 dark:text-red-500 hover:underline">
+                                    Delete
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script>
+        function deleteCocktail(event) {
+            if (confirm('Are you sure ?')) {
+                const form = event.target
+                form.submit()
+            }
+        }
+    </script>
+{% endblock %}
