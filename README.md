@@ -13,6 +13,11 @@
 - Sécurité (Voter) pour les cocktails VIP  
 Pour afficher ou pas dans la liste et autoriser la route 'show'
 
+## Cart
+
+- Mise en place du CartService et du controller
+- Mise en place de la vue `cart.html.twig`
+
 ## User
 
 - Mise en place de la partie login et register de Symfony
