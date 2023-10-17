@@ -17,7 +17,7 @@
                      src="{{ cart.cocktail.url ?? 'https://images.pexels.com/photos/2795026/pexels-photo-2795026.jpeg?cs=srgb&dl=pexels-dima-valkov-2795026.jpg&fm=jpg' }}"
                      alt="{{ cart.cocktail.name }}">
                 <div class="mx-3">
-                    <h3 class="text-sm text-gray-600">{{ cart.cocktail.name }}</h3>
+                    <a href="{{ path('cocktail_show', {slug: cart.cocktail.slug}) }}" class="text-sm text-gray-600 hover:text-blue-600">{{ cart.cocktail.name }}</a>
                     <div class="flex items-center space-x-2 mt-2">
                         <form method="post" action="{{ path('cart_remove', {cocktail: cart.cocktail.id}) }}">
                             <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
@@ -41,17 +41,17 @@
                     </div>
                 </div>
             </div>
-            <span class="text-gray-600">{{ cart.cocktail.price * cart.quantity }} €</span>
+            <span class="text-gray-600">{{ (cart.cocktail.price * cart.quantity)|format_currency('EUR') }}</span>
         </div>
     {% endfor %}
     {% if cartCocktails|length %}
-    <a href="{{ path('cart_index') }}"
-       class="flex items-center justify-center mt-4 px-3 py-2 bg-blue-600 text-white text-sm uppercase font-medium rounded hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
-        <span>Checkout</span>
-        <svg class="h-5 w-5 mx-2" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-             viewBox="0 0 24 24" stroke="currentColor">
-            <path d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
-        </svg>
-    </a>
+        <a href="{{ path('cart_index') }}"
+           class="flex items-center justify-center mt-4 px-3 py-2 bg-blue-600 text-white text-sm uppercase font-medium rounded hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
+            <span>Checkout</span>
+            <svg class="h-5 w-5 mx-2" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                 viewBox="0 0 24 24" stroke="currentColor">
+                <path d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+            </svg>
+        </a>
     {% endif %}
 </div>

@@ -27,21 +27,23 @@
                        class="flex items-end justify-end h-56 w-full bg-cover bg-center bg-no-repeat relative"
                        style="background-image: url('{{ cocktail.url }}')">
                         <div class="bg-white/25 opacity-0 hover:opacity-100 absolute w-full h-full top-0 left-0 transition duration-75 ease-in-out"></div>
-                        <form method="post" action="{{ path('cart_add', {cocktail: cocktail.id}) }}"
-                              class="mx-5 -mb-4 z-[2]">
-                            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-                            <button class="p-2 rounded-full bg-blue-600 text-white hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
-                                <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round"
-                                     stroke-width="2"
-                                     viewBox="0 0 24 24" stroke="currentColor">
-                                    <path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
-                                </svg>
-                            </button>
-                        </form>
+                        {% if app.user %}
+                            <form method="post" action="{{ path('cart_add', {cocktail: cocktail.id}) }}"
+                                  class="mx-5 -mb-4 z-[2]">
+                                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                                <button class="p-2 rounded-full bg-blue-600 text-white hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
+                                    <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round"
+                                         stroke-width="2"
+                                         viewBox="0 0 24 24" stroke="currentColor">
+                                        <path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                                    </svg>
+                                </button>
+                            </form>
+                        {% endif %}
                     </a>
                     <div class="px-5 py-3">
                         <h3 class="text-gray-700 font-bold uppercase">{{ cocktail.name }}</h3>
-                        <h2 class="text-3xl text-yellow-500 mt-2">{{ cocktail.price }} €</h2>
+                        <h2 class="text-3xl text-yellow-500 mt-2">{{ cocktail.price|format_currency('EUR') }}</h2>
                     </div>
                 </div>
             {% endfor %}

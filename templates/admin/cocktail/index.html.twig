@@ -45,7 +45,7 @@
                         {{ cocktail.slug }}
                     </td>
                     <td class="px-6 py-4">
-                        {{ cocktail.price }}€
+                        {{ cocktail.price|format_currency('EUR') }}
                     </td>
                     <td class="px-6 py-4 text-center flex justify-center">
                         <img src="{{ cocktail.url }}" alt="{{ cocktail.name }}" class="w-20 h-20">
