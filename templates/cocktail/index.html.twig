@@ -2,25 +2,33 @@
 
 {% block body %}
     <form class="relative mt-6 mb-8 max-w-lg mx-auto">
-        <label for="name" class="absolute inset-y-0 left-0 pl-3 flex items-center">
+        <label for="search" class="absolute inset-y-0 left-0 px-3 flex items-center">
             <svg class="h-5 w-5 text-gray-500" viewBox="0 0 24 24" fill="none">
                 <path d="M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z"
                       stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
             </svg>
         </label>
-        <input id="name" name="name"
+        <input id="search" name="search"
                class="w-full border rounded-md pl-10 pr-4 py-2 focus:border-blue-500 focus:outline-none focus:shadow-outline"
                type="text" placeholder="Search">
+        {% if app.request.query.get('search', null) %}
+            <div class="absolute inset-y-0 right-0 px-3 flex items-center">
+                <a href="{{ path('cocktail_index') }}"
+                   class="rounded-md px-3 py-1 bg-blue-600 text-white hover:bg-blue-500 focus:outline-none focus:bg-blue-500">reset</a>
+            </div>
+        {% endif %}
     </form>
     <div class="container mx-auto px-32">
-        <h3 class="text-gray-700 text-2xl font-medium">All our magnificent cocktails</h3>
+        <h3 class="text-gray-700 text-2xl font-medium flex items-center space-x-10">All our magnificent cocktails</h3>
         <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-6">
             {% for cocktail in cocktails %}
                 <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden">
-                    <a href="{{ path('cocktail_show', {slug: cocktail.slug}) }}" class="flex items-end justify-end h-56 w-full bg-cover bg-center bg-no-repeat relative"
-                         style="background-image: url('{{ cocktail.url }}')">
+                    <a href="{{ path('cocktail_show', {slug: cocktail.slug}) }}"
+                       class="flex items-end justify-end h-56 w-full bg-cover bg-center bg-no-repeat relative"
+                       style="background-image: url('{{ cocktail.url }}')">
                         <div class="bg-white/25 opacity-0 hover:opacity-100 absolute w-full h-full top-0 left-0 transition duration-75 ease-in-out"></div>
-                        <form method="post" action="{{ path('cart_add', {cocktail: cocktail.id}) }}" class="mx-5 -mb-4 z-[2]">
+                        <form method="post" action="{{ path('cart_add', {cocktail: cocktail.id}) }}"
+                              class="mx-5 -mb-4 z-[2]">
                             <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
                             <button class="p-2 rounded-full bg-blue-600 text-white hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
                                 <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round"

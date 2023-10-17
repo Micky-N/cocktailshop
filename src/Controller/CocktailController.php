@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Cocktail;
-use App\Entity\User;
 use App\Form\CocktailType;
 use App\Repository\CocktailRepository;
 use App\Service\CartService;
@@ -23,13 +22,25 @@ class CocktailController extends AbstractController
     }
 
     #[Route('/cocktails', name: 'cocktail_index')]
-    public function index(CocktailRepository $cocktailRepository, Security $security): Response
+    public function index(Request $request, CocktailRepository $cocktailRepository, Security $security): Response
     {
         $queryBuilder = $cocktailRepository->createQueryBuilder('cocktail');
         // If user is not a VIP remove all VIP cocktail
         if (!$security->isGranted('ROLE_VIP')) {
-            $queryBuilder->where('cocktail.vip = FALSE');
+            $queryBuilder->where('cocktail.vip = FALSE')
+                // Prepare request for search
+                ->andWhere('LOWER(cocktail.name) LIKE :search');
+        } else {
+            // Prepare request for search
+            $queryBuilder->where('LOWER(cocktail.name) LIKE :search');
         }
+
+        // Get query param search
+        $search = $request->query->get('search', '');
+        // Set param search
+        $queryBuilder
+            ->setParameter('search', '%' . strtolower($search) . '%');
+
         $query = $queryBuilder->getQuery();
         return $this->render('cocktail/index.html.twig', [
             'cocktails' => $query->execute(),
