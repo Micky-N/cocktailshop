@@ -77,9 +77,9 @@ class CartService
 
     /**
      * Delete cart from session
-     * @return null
+     * @return mixed
      */
-    public function clear(): null
+    public function clear(): mixed
     {
         return $this->session->remove('cart');
     }

@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Cocktail;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -21,6 +22,8 @@ class CocktailType extends AbstractType
             ->add('url', UrlType::class, [
                 'required' => false
             ])
+            ->add('ingredients')
+            ->add('description', TextareaType::class)
             ->add('save', SubmitType::class)
         ;
     }

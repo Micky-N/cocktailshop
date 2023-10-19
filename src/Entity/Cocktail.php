@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\CocktailRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CocktailRepository::class)]
@@ -28,6 +29,12 @@ class Cocktail
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $url = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $description = null;
+
+    #[ORM\Column(type: Types::JSON, nullable: true)]
+    private array $ingredients = [];
 
     public function getId(): ?int
     {
@@ -90,6 +97,34 @@ class Cocktail
     public function setUrl(?string $url): static
     {
         $this->url = $url;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): static
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getIngredients(): array
+    {
+        return $this->ingredients;
+    }
+
+    public function setIngredients(array|string $ingredients): static
+    {
+        if(is_string($ingredients)){
+            $ingredients = explode(',', $ingredients);
+            $ingredients = array_map(fn($ingredient) => trim($ingredient), $ingredients);
+        }
+        $this->ingredients = $ingredients;
 
         return $this;
     }

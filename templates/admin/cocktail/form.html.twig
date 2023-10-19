@@ -18,42 +18,56 @@
                 <span>Retour</span>
             </a>
         </div>
-        <div class="max-w-2xl px-4 mx-auto py-16">
-            <h2 class="mb-4 text-xl font-bold text-gray-900">{{ cocktail.id ? 'Edit' : 'Create' }} cocktail</h2>
-            <div class="my-custom-class-for-errors">
-                {{ form_errors(form) }}
+        <div class="grid grid-cols-2 items-start px-20 py-16">
+            <div>
+                <img id="image_url" class="w-3/4 mx-auto" src="{{ cocktail.url }}" alt="">
             </div>
-            {{ form_start(form) }}
-            {{ form_widget(form._token) }}
-            <div class="grid grid-cols-3 gap-6 mb-5">
-                <div class="col-span-2">
-                    {{ form_label(form.name, 'Cocktail Name', {'label_attr': {'class': 'block mb-2 text-sm font-medium text-gray-900'}}) }}
-                    {{ form_widget(form.name, {'attr': {'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5'}}) }}
+            <div class="w-full mx-auto">
+                <h2 class="mb-4 text-xl font-bold text-gray-900">{{ cocktail.id ? 'Edit' : 'Create' }} cocktail</h2>
+                <div class="my-custom-class-for-errors">
+                    {{ form_errors(form) }}
                 </div>
-                <div class="col-span-1">
-                    {{ form_label(form.price, 'Price', {'label_attr': {'class': 'block mb-2 text-sm font-medium text-gray-900'}}) }}
-                    {{ form_widget(form.price, {'attr': {'step': 0.01, 'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5'}}) }}
+                {{ form_start(form) }}
+                {{ form_widget(form._token) }}
+                <div class="grid grid-cols-3 gap-6 mb-5">
+                    <div class="col-span-2">
+                        {{ form_label(form.name, 'Cocktail Name', {'label_attr': {'class': 'block mb-2 text-sm font-medium text-gray-900'}}) }}
+                        {{ form_widget(form.name, {'attr': {'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5'}}) }}
+                    </div>
+                    <div class="col-span-1">
+                        {{ form_label(form.price, 'Price', {'label_attr': {'class': 'block mb-2 text-sm font-medium text-gray-900'}}) }}
+                        {{ form_widget(form.price, {'attr': {'step': 0.01, 'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5'}}) }}
+                    </div>
+                    <div class="col-span-2">
+                        {{ form_label(form.slug, 'Slug', {'label_attr': {'class': 'block mb-2 text-sm font-medium text-gray-900'}}) }}
+                        {{ form_widget(form.slug, {'attr': {'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5'}}) }}
+                    </div>
+                    <div class="col-span-1 flex space-x-2 items-center">
+                        {{ form_widget(form.vip, {'attr': {'class': 'w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2'}}) }}
+                        {{ form_label(form.vip, 'VIP', {'label_attr': {'class': 'block mb-2 text-sm font-medium text-gray-900'}}) }}
+                    </div>
+                    <div class="col-span-3">
+                        {{ form_label(form.url, 'Url image', {'label_attr': {'class': 'block mb-2 text-sm font-medium text-gray-900'}}) }}
+                        {{ form_widget(form.url, {'attr': {'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5'}}) }}
+                    </div>
+                    <div class="col-span-3">
+                        {{ form_label(form.description, 'Description', {'label_attr': {'class': 'block mb-2 text-sm font-medium text-gray-900'}}) }}
+                        {{ form_widget(form.description, {'attr': {'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5'}}) }}
+                    </div>
+                    <div class="col-span-3">
+                        {{ form_label(form.ingredients, 'Ingredients', {'label_attr': {'class': 'block mb-2 text-sm font-medium text-gray-900'}}) }}
+                        <input
+                                name="{{ field_name(form.ingredients) }}"
+                                value="{{ field_value(form.ingredients)|join(', ') }}"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                        >
+                    </div>
                 </div>
-                <div class="col-span-2">
-                    {{ form_label(form.slug, 'Slug', {'label_attr': {'class': 'block mb-2 text-sm font-medium text-gray-900'}}) }}
-                    {{ form_widget(form.slug, {'attr': {'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5'}}) }}
+                <div class="flex items-center space-x-4">
+                    {{ form_widget(form.save, {attr: {class: 'text-white bg-green-500 hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-green-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center'}}) }}
                 </div>
-                <div class="col-span-1 flex space-x-2 items-center">
-                    {{ form_widget(form.vip, {'attr': {'class': 'w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2'}}) }}
-                    {{ form_label(form.vip, 'VIP', {'label_attr': {'class': 'block mb-2 text-sm font-medium text-gray-900'}}) }}
-                </div>
-                <div class="col-span-3">
-                    {{ form_label(form.url, 'Url image', {'label_attr': {'class': 'block mb-2 text-sm font-medium text-gray-900'}}) }}
-                    {{ form_widget(form.url, {'attr': {'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5'}}) }}
-                </div>
-                <div class="col-span-1">
-                    <img id="image_url" class="h-40" src="{{ cocktail.url }}" alt="">
-                </div>
+                {{ form_end(form) }}
             </div>
-            <div class="flex items-center space-x-4">
-                {{ form_widget(form.save, {attr: {class: 'text-white bg-green-500 hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-green-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center'}}) }}
-            </div>
-            {{ form_end(form) }}
         </div>
     </section>
 
