@@ -56,6 +56,12 @@ class CartService
         return $this->session->get('cart', []);
     }
 
+    public function count(): int
+    {
+        $cartArray = $this->get();
+        return array_sum($cartArray);
+    }
+
     /**
      * Delete cocktail from cart
      *

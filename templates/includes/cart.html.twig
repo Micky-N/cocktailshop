@@ -10,7 +10,7 @@
         </button>
     </div>
     <hr class="my-3">
-    {% for cart in cartCocktails %}
+    {% for cart in cart_service.getFullCart %}
         <div class="flex justify-between mt-6">
             <div class="flex">
                 <img class="h-20 w-20 bg-cover bg-center rounded"
@@ -44,7 +44,7 @@
             <span class="text-gray-600">{{ (cart.cocktail.price * cart.quantity)|format_currency('EUR') }}</span>
         </div>
     {% endfor %}
-    {% if cartCocktails|length %}
+    {% if cart_service.getFullCart|length %}
         <a href="{{ path('cart_index') }}"
            class="flex items-center justify-center mt-4 px-3 py-2 bg-blue-600 text-white text-sm uppercase font-medium rounded hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
             <span>Checkout</span>

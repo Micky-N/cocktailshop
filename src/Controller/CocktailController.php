@@ -3,8 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Cocktail;
+use App\Entity\Comment;
 use App\Form\CocktailType;
+use App\Form\CommentType;
 use App\Repository\CocktailRepository;
+use App\Repository\CommentRepository;
 use App\Service\CartService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,9 +20,6 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class CocktailController extends AbstractController
 {
-    public function __construct(private readonly CartService $cartService)
-    {
-    }
 
     #[Route('/cocktails', name: 'cocktail_index')]
     public function index(Request $request, CocktailRepository $cocktailRepository, Security $security): Response
@@ -43,8 +43,7 @@ class CocktailController extends AbstractController
 
         $query = $queryBuilder->getQuery();
         return $this->render('cocktail/index.html.twig', [
-            'cocktails' => $query->execute(),
-            'cartCocktails' => $this->cartService->getFullCart()
+            'cocktails' => $query->execute()
         ]);
     }
 
@@ -52,8 +51,7 @@ class CocktailController extends AbstractController
     public function indexAdmin(CocktailRepository $cocktailRepository): Response
     {
         return $this->render('admin/cocktail/index.html.twig', [
-            'cocktails' => $cocktailRepository->findAll(),
-            'cartCocktails' => $this->cartService->getFullCart()
+            'cocktails' => $cocktailRepository->findAll()
         ]);
     }
 
@@ -61,10 +59,14 @@ class CocktailController extends AbstractController
     #[IsGranted('VIEW_VIP', 'cocktail', 'Cocktail not found', 404)]
     public function show(Cocktail $cocktail): Response
     {
+        $comment = new Comment();
+        $commentForm = $this->createForm(CommentType::class, $comment, [
+            'action' => $this->generateUrl('comment_store', ['slug' => $cocktail->getSlug()])
+        ]);
+
         return $this->render('cocktail/show.html.twig', [
             'cocktail' => $cocktail,
-            'cartCocktails' => $this->cartService->getFullCart(),
-            'count' => $this->cartService->get()[$cocktail->getId()] ?? 0
+            'form' => $commentForm
         ]);
     }
 
@@ -84,8 +86,7 @@ class CocktailController extends AbstractController
         }
         return $this->render('admin/cocktail/form.html.twig', [
             'form' => $form,
-            'cocktail' => $cocktail,
-            'cartCocktails' => $this->cartService->getFullCart(),
+            'cocktail' => $cocktail
         ]);
     }
 

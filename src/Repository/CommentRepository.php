@@ -2,27 +2,27 @@
 
 namespace App\Repository;
 
-use App\Entity\Cocktail;
+use App\Entity\Comment;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Cocktail>
+ * @extends ServiceEntityRepository<Comment>
  *
- * @method Cocktail|null find($id, $lockMode = null, $lockVersion = null)
- * @method Cocktail|null findOneBy(array $criteria, array $orderBy = null)
- * @method Cocktail[]    findAll()
- * @method Cocktail[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Comment|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Comment|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Comment[]    findAll()
+ * @method Comment[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class CocktailRepository extends ServiceEntityRepository
+class CommentRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Cocktail::class);
+        parent::__construct($registry, Comment::class);
     }
 
-//     /**
-//     * @return Cocktail[] Returns an array of Cocktail objects
+//    /**
+//     * @return Comment[] Returns an array of Comment objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -36,7 +36,7 @@ class CocktailRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Cocktail
+//    public function findOneBySomeField($value): ?Comment
 //    {
 //        return $this->createQueryBuilder('c')
 //            ->andWhere('c.exampleField = :val')

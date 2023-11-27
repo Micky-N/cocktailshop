@@ -43,7 +43,8 @@
                     <div class="flex items-end justify-between">
                         <h3 class="text-gray-500 text-lg mt-1">{{ cocktail.price|format_currency('EUR') }}</h3>
                         {% if app.user %}
-                            <span class="text-gray-700 text-md">Quantity: <span class="font-bold">{{ count }}</span></span>
+                            <span class="text-gray-700 text-md">Quantity: <span
+                                        class="font-bold">{{ cart_service.get[cocktail.id] is defined ? cart_service.get[cocktail.id] : 0 }}</span></span>
                         {% endif %}
                     </div>
                 </div>
@@ -77,6 +78,26 @@
                 {% endif %}
             </div>
         </div>
+        {% if app.user %}
+        <div class="flex flex-col space-y-6 mt-14">
+            {% for comment in cocktail.comments %}
+                <div class="border rounded-md p-3 ml-3">
+                    <div class="flex gap-3 items-center">
+                        <h3 class="font-bold">
+                            {{ comment.user.fullName }}
+                        </h3>
+                    </div>
+                    <p class="text-gray-600 mt-2">
+                        {{ comment.content }}
+                    </p>
+                </div>
+            {% endfor %}
+            {{ form_start(form, {attr: {class: 'flex flex-col space-y-6'}}) }}
+            {{ form_widget(form.content, {attr: {placeholder: 'Type your comment', class: 'bg-gray-50 rounded border border-gray-400 leading-normal h-20 p-3 ml-3 font-medium placeholder-gray-700 focus:outline-none focus:bg-white'}}) }}
+            {{ form_widget(form.submit, {attr: {class: 'px-2.5 py-1.5 rounded-md w-fit text-white text-sm bg-indigo-500'}, label: 'Save comment'}) }}
+            {{ form_end(form) }}
+        </div>
+        {% endif %}
     </div>
 {% endblock %}
 

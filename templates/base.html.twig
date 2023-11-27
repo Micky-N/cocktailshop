@@ -17,7 +17,7 @@
 {% include 'includes/nav.html.twig' %}
 <main class="my-8">
     {% block body %}{% endblock %}
-    {% if app.user and cartCocktails is defined %}
+    {% if app.user %}
         {% include 'includes/cart.html.twig' %}
     {% endif %}
 </main>
