@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Service\CartService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,9 +20,12 @@ class CartController extends AbstractController
     #[Route('/cart', name: 'cart_index')]
     public function index(): Response
     {
+        /** @var User $user */
+        $user = $this->getUser();
         return $this->render('cart/index.html.twig', [
             'cartCocktails' => $this->cartService->getFullCart(),
-            'total' => $this->cartService->getTotal()
+            'total' => $this->cartService->getTotal(),
+            'deliveryAddress' => $user?->getProfile()?->getDeliveryAddress()
         ]);
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Profile;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -31,7 +32,11 @@ class RegistrationController extends AbstractController
                 )
             );
 
+            $profile = new Profile();
+            $profile->setLinkedUser($user);
+
             $entityManager->persist($user);
+            $entityManager->persist($profile);
             $entityManager->flush();
 
             return $this->redirectToRoute('cocktail_index');

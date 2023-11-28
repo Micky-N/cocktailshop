@@ -7,9 +7,8 @@ use App\Entity\Comment;
 use App\Form\CocktailType;
 use App\Form\CommentType;
 use App\Repository\CocktailRepository;
-use App\Repository\CommentRepository;
-use App\Service\CartService;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -73,7 +72,11 @@ class CocktailController extends AbstractController
     #[Route('admin/cocktail/new', name: 'admin_cocktail_new')]
     #[Route('admin/cocktail/{cocktail}/edit', name: 'admin_cocktail_edit')]
     #[IsGranted('EDIT', null, 'Page not found', 404)]
-    public function form(Request $request, EntityManagerInterface $manager, ?Cocktail $cocktail = null): RedirectResponse|Response
+    public function form(
+        Request                $request,
+        EntityManagerInterface $manager,
+        ?Cocktail              $cocktail = null
+    ): RedirectResponse|Response
     {
         // Get current cocktail in edit route otherwise new instance of Cocktail entity
         $cocktail ??= new Cocktail();

@@ -9,13 +9,11 @@ use Symfony\Component\String\Slugger\AsciiSlugger;
 
 class CocktailFixtures extends Fixture
 {
-    public const COCKTAILS_REFERENCE = 'cocktails';
 
     public function load(ObjectManager $manager): void
     {
         $data = json_decode(file_get_contents('https://thecocktaildb.com/api/json/v1/1/search.php?s=d'), true);
         $slugger = new AsciiSlugger();
-        $cocktails = [];
 
         foreach ($data['drinks'] as $drink){
             $cocktail = new Cocktail();
@@ -27,13 +25,9 @@ class CocktailFixtures extends Fixture
             $cocktail->setVip($drink['strCreativeCommonsConfirmed'] == 'Yes');
             $cocktail->setPrice(mt_rand(1000, 10000)/100);
             $manager->persist($cocktail);
-            $cocktails[] = $cocktail;
         }
 
         $manager->flush();
-
-        $cocktails = (object) ['cocktails' => $cocktails];
-        $this->addReference(self::COCKTAILS_REFERENCE, $cocktails);
     }
 
     private function getIngredients(array $drinkAPI): array

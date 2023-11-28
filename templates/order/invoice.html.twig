@@ -1,0 +1,115 @@
+{# templates/invoice/invoice.html.twig #}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facture</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .address div:nth-child(2) {
+            text-align: right;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        p {
+            margin-bottom: 0.5rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        th, td {
+            border: 1px solid #e2e8f0;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tfoot {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Facture n°{{ "now" | date('U') }}</h1>
+
+    <div class="address">
+        <div>
+            <h2>De:</h2>
+            <p>
+                CocktailShop<br>
+                6 rue de la république<br>
+                64578 Laravel<br>
+                support@cocktailshop.com
+            </p>
+        </div>
+        <div>
+            <h2>À:</h2>
+            <p>
+                {{ order.customerName }}<br>
+                {{ billingAddress.street }}<br>
+                {{ billingAddress.zip ~ ' ' ~ billingAddress.city }}<br>
+                {{ order.customer.linkedUser.email }}
+        </div>
+    </div>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Cocktail</th>
+            <th>Quantité</th>
+            <th>Prix unitaire</th>
+            <th>Total</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for orderItem in order.orderItems %}
+            <tr>
+                <td>{{ orderItem.cocktail.name }}</td>
+                <td>{{ orderItem.quantity }}</td>
+                <td>{{ orderItem.cocktail.price }} €</td>
+                <td>{{ orderItem.quantity * orderItem.cocktail.price }} €</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+        <tr>
+            <td colspan="3" class="text-right font-semibold">Total</td>
+            <td class="font-semibold">{{ order.amount / 100 }} €</td>
+        </tr>
+        </tfoot>
+    </table>
+</div>
+
+</body>
+</html>

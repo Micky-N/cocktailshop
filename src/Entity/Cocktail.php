@@ -41,9 +41,13 @@ class Cocktail
     #[ORM\OneToMany(mappedBy: 'cocktail', targetEntity: Comment::class)]
     private Collection $comments;
 
+    #[ORM\OneToMany(mappedBy: 'cocktail', targetEntity: OrderItem::class)]
+    private Collection $orderItems;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
+        $this->orderItems = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -163,6 +167,36 @@ class Cocktail
             // set the owning side to null (unless already changed)
             if ($comment->getCocktail() === $this) {
                 $comment->setCocktail(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, OrderItem>
+     */
+    public function getOrderItems(): Collection
+    {
+        return $this->orderItems;
+    }
+
+    public function addOrderItem(OrderItem $orderItem): static
+    {
+        if (!$this->orderItems->contains($orderItem)) {
+            $this->orderItems->add($orderItem);
+            $orderItem->setCocktail($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrderItem(OrderItem $orderItem): static
+    {
+        if ($this->orderItems->removeElement($orderItem)) {
+            // set the owning side to null (unless already changed)
+            if ($orderItem->getCocktail() === $this) {
+                $orderItem->setCocktail(null);
             }
         }
 

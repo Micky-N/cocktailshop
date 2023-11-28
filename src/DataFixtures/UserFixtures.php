@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Cocktail;
+use App\Entity\Profile;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -12,7 +13,6 @@ use Symfony\Component\String\Slugger\AsciiSlugger;
 
 class UserFixtures extends Fixture
 {
-    public const USERS_REFERENCE = 'users';
 
     public function __construct(private UserPasswordHasherInterface $hasher)
     {
@@ -21,16 +21,16 @@ class UserFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         $faker = Factory::create();
-        $users = [];
         $adminUser = new User();
         $adminUser->setFirstname('Mickael');
         $adminUser->setLastname('Ndinga');
         $adminUser->setEmail('micky@cocktail.com');
         $adminUser->setPassword($this->hasher->hashPassword($adminUser, 'password'));
         $adminUser->setRoles('ROLE_ADMIN');
+        $profile = new Profile();
+        $profile->setLinkedUser($adminUser);
         $manager->persist($adminUser);
-
-        $users[] = $adminUser;
+        $manager->persist($profile);
 
         for($i = 0; $i < 3; $i++){
             $user = new User();
@@ -39,12 +39,11 @@ class UserFixtures extends Fixture
             $user->setEmail($faker->email);
             $user->setPassword($this->hasher->hashPassword($user, 'password'));
             $user->setRoles($i <= 1 ? 'ROLE_VIP' : '');
+            $profile = new Profile();
+            $profile->setLinkedUser($user);
             $manager->persist($user);
-            $users[] = $user;
+            $manager->persist($profile);
         }
         $manager->flush();
-
-        $users = (object) ['users' => $users];
-        $this->addReference(self::USERS_REFERENCE, $users);
     }
 }

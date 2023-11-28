@@ -4,60 +4,101 @@
     {% if error is defined %}
         <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
-
-    <section class="">
-        <div class="flex justify-center px-6 mx-auto">
-            <div class="w-1/2 bg-white rounded-lg shadow">
-                <div class="p-6 space-y-6 sm:p-8">
-                    <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                        Create an account
-                    </h1>
-                    {{ form_start(registrationForm, {attr: {class: 'space-y-6'}}) }}
-                    <div>
-                        {{ form_label(registrationForm.email, 'Your email', {label_attr: {class: 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'}}) }}
-                        {{ form_widget(registrationForm.email, {attr: {placeholder: 'name@email.com',class: 'bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5'}}) }}
-                    </div>
-                    <div>
-                        {{ form_label(registrationForm.firstname, 'Your firstname', {label_attr: {class: 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'}}) }}
-                        {{ form_widget(registrationForm.firstname, {attr: {class: 'bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5'}}) }}
-                    </div>
-                    <div>
-                        {{ form_label(registrationForm.lastname, 'Your lastname', {label_attr: {class: 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'}}) }}
-                        {{ form_widget(registrationForm.lastname, {attr: {class: 'bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5'}}) }}
-                    </div>
-                    <div>
-                        {{ form_label(registrationForm.password.first, 'Password', {label_attr: {class: 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'}}) }}
-                        {{ form_widget(registrationForm.password.first, {attr: {placeholder: '*******',class: 'bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5'}}) }}
-                    </div>
-                    <div>
-                        {{ form_label(registrationForm.password.second, 'Confirm Password', {label_attr: {class: 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'}}) }}
-                        {{ form_widget(registrationForm.password.second, {attr: {placeholder: '*******',class: 'bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5'}}) }}
-                    </div>
-                    <div>
-                        {{ form_label(registrationForm.roles, 'Type user', {label_attr: {class: 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'}}) }}
-                        {{ form_widget(registrationForm.roles, {attr: {class: 'bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5'}}) }}
-                    </div>
-                    <div class="flex items-start">
-                        <div class="flex items-center h-5">
-                            {{ form_widget(registrationForm.agreeTerms, {attr: {class: 'w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300'}}) }}
-                        </div>
-                        <div class="ml-3 text-sm">
-                            {{ form_label(registrationForm.agreeTerms, null, {
-                                label_attr: {class: 'font-light text-gray-500'},
-                                label: 'I accept the <a class="font-medium text-blue-600 hover:underline" href="#">Terms and Conditions</a>',
-                                label_html: true
-                            }) }}
-                        </div>
-                    </div>
-                    {{ form_widget(registrationForm.save, {attr: {class: 'w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center'}}) }}
-                    <p class="text-sm font-light text-gray-500">
-                        Already have an account?
-                        <a href="{{ path('app_login') }}" class="font-medium text-blue-600 hover:underline">
-                            Login here
-                        </a>
-                    </p>
-                    {{ form_end(registrationForm) }}
+    <div class="flex flex-col justify-between items-center">
+        <img class="h-36 w-36 rounded-full" src="images/avatar11.png" alt=""/>
+        <h4 class="mt- text-bluePrimary text-xl font-bold">{{ app.user().fullname }}</h4>
+    </div>
+    <section class="grid grid-cols-2">
+        <div class="flex flex-col">
+            <div class="p-6 space-y-6 sm:p-8">
+                <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+                    Update Account
+                </h1>
+                {{ form_start(updateUserForm, {attr: {class: 'space-y-6'}}) }}
+                <div>
+                    {{ form_label(updateUserForm.email, null, {label_attr: {class: 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'}}) }}
+                    {{ form_widget(updateUserForm.email, {attr: {placeholder: 'name@email.com',class: 'bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5'}}) }}
                 </div>
+                <div>
+                    {{ form_label(updateUserForm.firstname, null, {label_attr: {class: 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'}}) }}
+                    {{ form_widget(updateUserForm.firstname, {attr: {class: 'bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5'}}) }}
+                </div>
+                <div>
+                    {{ form_label(updateUserForm.lastname, null, {label_attr: {class: 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'}}) }}
+                    {{ form_widget(updateUserForm.lastname, {attr: {class: 'bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5'}}) }}
+                </div>
+                <div>
+                    {{ form_label(updateUserForm.roles, null, {label_attr: {class: 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'}}) }}
+                    {{ form_widget(updateUserForm.roles, {attr: {class: 'bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5'}}) }}
+                </div>
+                {{ form_widget(updateUserForm.save, {attr: {class: 'w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center'}}) }}
+
+                {{ form_end(updateUserForm) }}
+            </div>
+            <div class="p-6 space-y-6 sm:p-8">
+                <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+                    Password Change
+                </h1>
+                {{ form_start(passwordUserForm, {attr: {class: 'space-y-6'}}) }}
+                <div>
+                    {{ form_label(passwordUserForm.old_password, null, {label_attr: {class: 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'}}) }}
+                    {{ form_widget(passwordUserForm.old_password, {attr: {placeholder: '*******',class: 'bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5'}}) }}
+                </div>
+                <div>
+                    {{ form_label(passwordUserForm.password.first, null, {label_attr: {class: 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'}}) }}
+                    {{ form_widget(passwordUserForm.password.first, {attr: {placeholder: '*******',class: 'bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5'}}) }}
+                </div>
+                <div>
+                    {{ form_label(passwordUserForm.password.second, null, {label_attr: {class: 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'}}) }}
+                    {{ form_widget(passwordUserForm.password.second, {attr: {placeholder: '*******',class: 'bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5'}}) }}
+                </div>
+                {{ form_widget(passwordUserForm.save, {attr: {class: 'w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center'}}) }}
+
+                {{ form_end(passwordUserForm) }}
+            </div>
+        </div>
+        <div class="p-6 space-y-6 flex flex-col">
+            <div class="p-6 space-y-6 sm:p-8">
+                <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+                    Delivery Address
+                </h1>
+                {{ form_start(deliveryAddressForm, {attr: {class: 'space-y-6'}}) }}
+                <div>
+                    {{ form_label(deliveryAddressForm.street, null, {label_attr: {class: 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'}}) }}
+                    {{ form_widget(deliveryAddressForm.street, {attr: {placeholder: '12 avenue street', class: 'bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5'}}) }}
+                </div>
+                <div>
+                    {{ form_label(deliveryAddressForm.zip, null, {label_attr: {class: 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'}}) }}
+                    {{ form_widget(deliveryAddressForm.zip, {attr: {placeholder: '12345', class: 'bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5'}}) }}
+                </div>
+                <div>
+                    {{ form_label(deliveryAddressForm.city, null, {label_attr: {class: 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'}}) }}
+                    {{ form_widget(deliveryAddressForm.city, {attr: {placeholder: 'Lyon', class: 'bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5'}}) }}
+                </div>
+                {{ form_widget(deliveryAddressForm.save, {attr: {class: 'w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center'}}) }}
+
+                {{ form_end(deliveryAddressForm) }}
+            </div>
+            <div class="p-6 space-y-6 sm:p-8">
+                <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+                    Billing Address
+                </h1>
+                {{ form_start(billingAddressForm, {attr: {class: 'space-y-6'}}) }}
+                <div>
+                    {{ form_label(billingAddressForm.street, null, {label_attr: {class: 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'}}) }}
+                    {{ form_widget(billingAddressForm.street, {attr: {placeholder: '12 avenue street', class: 'bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5'}}) }}
+                </div>
+                <div>
+                    {{ form_label(billingAddressForm.zip, null, {label_attr: {class: 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'}}) }}
+                    {{ form_widget(billingAddressForm.zip, {attr: {placeholder: '12345', class: 'bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5'}}) }}
+                </div>
+                <div>
+                    {{ form_label(billingAddressForm.city, null, {label_attr: {class: 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'}}) }}
+                    {{ form_widget(billingAddressForm.city, {attr: {placeholder: 'Lyon', class: 'bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5'}}) }}
+                </div>
+                {{ form_widget(billingAddressForm.save, {attr: {class: 'w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center'}}) }}
+
+                {{ form_end(billingAddressForm) }}
             </div>
         </div>
     </section>
