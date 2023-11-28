@@ -61,7 +61,7 @@
 <body>
 
 <div class="container">
-    <h1>Facture n°{{ "now" | date('U') }}</h1>
+    <h1>Facture n°{{ order.createdAt | date('U') }}</h1>
 
     <div class="address">
         <div>

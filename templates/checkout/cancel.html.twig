@@ -1,1 +1,27 @@
-Cancel
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello OrderController!{% endblock %}
+
+{% block body %}
+    <div class="container mx-auto mt-8 p-4 bg-white border border-gray-300">
+
+        <div class="text-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-red-500 mx-auto mb-4" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 2C5.49 2 1.86 5.64 1.29 10a8 8 0 0 0 15.42 3.7c1.46-.82 2.68-1.97 3.54-3.3A9.96 9.96 0 0 1 10 18c-2.49 0-4.78-.92-6.52-2.45A9.99 9.99 0 0 1 .58 8.86 8 8 0 0 0 10 2zm0 16a8 8 0 0 0 6.52-12.55 8 8 0 1 0-11.9 0A8 8 0 0 0 10 18zM7 7a1 1 0 1 1 2 0 1 1 0 0 1-2 0zm6 0a1 1 0 1 1 2 0 1 1 0 0 1-2 0z" clip-rule="evenodd"/>
+            </svg>
+
+            <h1 class="text-2xl font-semibold mb-2">Échec du paiement</h1>
+            <p class="text-gray-600">Votre paiement n'a pas été effectué avec succès. Veuillez réessayer.</p>
+        </div>
+
+        <div class="mt-8">
+            <h2 class="text-lg font-semibold mb-2">Réessayez en prenant en compte les points suivants :</h2>
+            <ul class="list-disc pl-6">
+                <li>Vérifiez les détails de votre carte de crédit.</li>
+                <li>Assurez-vous que votre solde est suffisant.</li>
+                <li>Contactez votre banque pour obtenir de l'aide.</li>
+            </ul>
+        </div>
+
+    </div>
+{% endblock %}

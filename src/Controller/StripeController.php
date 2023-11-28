@@ -3,17 +3,14 @@
 namespace App\Controller;
 
 use App\Entity\Order;
-use App\Entity\OrderItem;
 use App\Entity\User;
-use App\Repository\CocktailRepository;
 use App\Service\CartService;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Stripe\Checkout\Session;
-use Stripe\Product;
 use Stripe\Stripe;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGenerator;
@@ -29,8 +26,8 @@ class StripeController extends AbstractController
 
     #[Route('/checkout/create-session-stripe', name: 'checkout_session')]
     public function checkout(
-        CartService           $cartService,
-        UrlGeneratorInterface $urlGenerator,
+        CartService            $cartService,
+        UrlGeneratorInterface  $urlGenerator,
         EntityManagerInterface $entityManager
     ): Response
     {
@@ -69,6 +66,7 @@ class StripeController extends AbstractController
         $order->setCustomer($user->getProfile());
         $order->setCustomerName($user->fullName());
         $order->setStripeStatus('unpaid');
+        $order->setCreatedAt(new DateTimeImmutable('now'));
         $order->setStatus(Order::PENDING_PAYMENT);
         $entityManager->persist($order);
         $entityManager->flush();
@@ -78,7 +76,7 @@ class StripeController extends AbstractController
             'payment_method_types' => ['card'],
             'line_items' => [[$cocktailsStripe]],
             'mode' => 'payment',
-            'success_url' => $urlGenerator->generate('checkout_success', ['order' => $order->getId()], UrlGenerator::ABSOLUTE_URL),
+            'success_url' => $urlGenerator->generate('app_order_complete', ['order' => $order->getId()], UrlGenerator::ABSOLUTE_URL),
             'cancel_url' => $urlGenerator->generate('checkout_cancel', ['order' => $order->getId()], UrlGenerator::ABSOLUTE_URL),
         ]);
 
@@ -92,36 +90,11 @@ class StripeController extends AbstractController
     }
 
     #[Route('/checkout/success/{order}', name: 'checkout_success')]
-    public function success(
-        Order $order,
-        CartService $cartService,
-        CocktailRepository $cocktailRepository,
-        EntityManagerInterface $entityManager
-    )
+    public function store(Order $order)
     {
-        $allLineItems = Session::allLineItems($order->getStripeSessionId());
-        $session = Session::retrieve($order->getStripeSessionId());
-
-
-        $order->setStripeStatus($session->payment_status);
-        $order->setStatus(Order::PAYMENT_RECEIVED);
-
-        foreach ($allLineItems as $allLineItem) {
-            $stripeProduct = Product::retrieve($allLineItem->price->product);
-            $orderItem = new OrderItem();
-            $cocktail = $cocktailRepository->find($stripeProduct->metadata->cocktail_id);
-            $orderItem->setCocktail($cocktail);
-            $orderItem->setQuantity($allLineItem->quantity);
-            $order->addOrderItem($orderItem);
-            $entityManager->persist($orderItem);
-        }
-
-        $entityManager->persist($order);
-        $entityManager->flush();
-
-        $cartService->clear();
-
-        return $this->render('checkout/success.html.twig');
+        return $this->render('checkout/success.html.twig', [
+            'order' => $order
+        ]);
     }
 
     #[Route('/checkout/cancel/{order}', name: 'checkout_cancel')]

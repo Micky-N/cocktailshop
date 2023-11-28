@@ -41,6 +41,9 @@ class Order
     #[ORM\Column(length: 20)]
     private ?string $stripe_status = null;
 
+    #[ORM\Column]
+    private ?\DateTimeImmutable $createdAt = null;
+
     public function __construct()
     {
         $this->orderItems = new ArrayCollection();
@@ -151,6 +154,18 @@ class Order
     public function setStripeStatus(string $stripe_status): static
     {
         $this->stripe_status = $stripe_status;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    {
+        $this->createdAt = $createdAt;
 
         return $this;
     }

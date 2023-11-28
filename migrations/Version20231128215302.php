@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20231128202449 extends AbstractMigration
+final class Version20231128215302 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,12 +20,13 @@ final class Version20231128202449 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('DROP SEQUENCE address_id_seq CASCADE');
-        $this->addSql('DROP SEQUENCE order_item_id_seq CASCADE');
-        $this->addSql('DROP SEQUENCE profile_id_seq CASCADE');
         $this->addSql('CREATE SEQUENCE addresses_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
+        $this->addSql('CREATE SEQUENCE cocktails_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
+        $this->addSql('CREATE SEQUENCE comments_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE order_items_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
+        $this->addSql('CREATE SEQUENCE orders_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE profiles_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
+        $this->addSql('CREATE SEQUENCE users_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE TABLE addresses (id INT NOT NULL, profile_id INT NOT NULL, type VARCHAR(20) NOT NULL, street VARCHAR(255) NOT NULL, zip VARCHAR(10) NOT NULL, city VARCHAR(70) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_6FCA7516CCFA12B8 ON addresses (profile_id)');
         $this->addSql('CREATE TABLE cocktails (id INT NOT NULL, name VARCHAR(100) NOT NULL, price DOUBLE PRECISION NOT NULL, vip BOOLEAN NOT NULL, slug VARCHAR(100) NOT NULL, url VARCHAR(255) DEFAULT NULL, description TEXT DEFAULT NULL, ingredients JSON DEFAULT NULL, PRIMARY KEY(id))');
@@ -35,8 +36,9 @@ final class Version20231128202449 extends AbstractMigration
         $this->addSql('CREATE TABLE order_items (id INT NOT NULL, cocktail_id INT NOT NULL, linked_order_id INT NOT NULL, quantity INT NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_62809DB0CD6F76C6 ON order_items (cocktail_id)');
         $this->addSql('CREATE INDEX IDX_62809DB0E39F23E7 ON order_items (linked_order_id)');
-        $this->addSql('CREATE TABLE orders (id INT NOT NULL, customer_id INT NOT NULL, customer_name VARCHAR(255) NOT NULL, amount INT NOT NULL, stripe_session_id VARCHAR(255) DEFAULT NULL, status VARCHAR(255) DEFAULT NULL, stripe_status VARCHAR(20) NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE orders (id INT NOT NULL, customer_id INT NOT NULL, customer_name VARCHAR(255) NOT NULL, amount INT NOT NULL, stripe_session_id VARCHAR(255) DEFAULT NULL, status VARCHAR(255) DEFAULT NULL, stripe_status VARCHAR(20) NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_E52FFDEE9395C3F3 ON orders (customer_id)');
+        $this->addSql('COMMENT ON COLUMN orders.created_at IS \'(DC2Type:datetime_immutable)\'');
         $this->addSql('CREATE TABLE profiles (id INT NOT NULL, linked_user_id INT NOT NULL, url_photo TEXT DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_8B308530CC26EB02 ON profiles (linked_user_id)');
         $this->addSql('CREATE TABLE users (id INT NOT NULL, email VARCHAR(180) NOT NULL, roles JSON NOT NULL, password VARCHAR(255) NOT NULL, firstname VARCHAR(50) NOT NULL, lastname VARCHAR(50) NOT NULL, PRIMARY KEY(id))');
@@ -70,11 +72,12 @@ final class Version20231128202449 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE SCHEMA public');
         $this->addSql('DROP SEQUENCE addresses_id_seq CASCADE');
+        $this->addSql('DROP SEQUENCE cocktails_id_seq CASCADE');
+        $this->addSql('DROP SEQUENCE comments_id_seq CASCADE');
         $this->addSql('DROP SEQUENCE order_items_id_seq CASCADE');
+        $this->addSql('DROP SEQUENCE orders_id_seq CASCADE');
         $this->addSql('DROP SEQUENCE profiles_id_seq CASCADE');
-        $this->addSql('CREATE SEQUENCE address_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
-        $this->addSql('CREATE SEQUENCE order_item_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
-        $this->addSql('CREATE SEQUENCE profile_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
+        $this->addSql('DROP SEQUENCE users_id_seq CASCADE');
         $this->addSql('ALTER TABLE addresses DROP CONSTRAINT FK_6FCA7516CCFA12B8');
         $this->addSql('ALTER TABLE comments DROP CONSTRAINT FK_5F9E962AA76ED395');
         $this->addSql('ALTER TABLE comments DROP CONSTRAINT FK_5F9E962ACD6F76C6');
